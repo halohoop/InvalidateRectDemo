@@ -7,8 +7,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by huanghaiqi on 1/12/17.
@@ -32,6 +35,7 @@ public class FingerView extends View {
     private float lastTouchX;
     private float lastTouchY;
     private final RectF dirtyRect = new RectF();
+    private boolean mColorChange = false;
 
     public FingerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -53,9 +57,15 @@ public class FingerView extends View {
         invalidate();
     }
 
+    public void changeColor(){
+        paint.setColor(mColorChange?Color.RED:Color.YELLOW);
+        mColorChange = !mColorChange;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawPath(path, paint);
+        Log.i(TAG, "onDraw: "+canvas.isHardwareAccelerated());
     }
 
     @Override
